@@ -34,6 +34,8 @@
     "/postgres-data"
   ],
   "dependencies": {
+    "@headlessui/react": "^1.7.11",
+    "@heroicons/react": "^2.0.16",
     "@isaacs/express-prometheus-middleware": "^1.2.1",
     "@prisma/client": "^4.9.0",
     "@remix-run/express": "^1.13.0",

@@ -1,39 +1,40 @@
-import type { User, Note } from "@prisma/client";
+import type { User, Changelog } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export type { Note } from "@prisma/client";
+export type { Changelog } from "@prisma/client";
 
-export function getNote({
+export function getChangelog({
   id,
   userId,
-}: Pick<Note, "id"> & {
+}: Pick<Changelog, "id"> & {
   userId: User["id"];
 }) {
-  return prisma.note.findFirst({
+  return prisma.changelog.findFirst({
+    select: { id: true, content: true, title: true },
     where: { id, userId },
   });
 }
 
-export function getNoteListItems({ userId }: { userId: User["id"] }) {
-  return prisma.note.findMany({
+export function getChangelogListItems({ userId }: { userId: User["id"] }) {
+  return prisma.changelog.findMany({
     where: { userId },
     select: { id: true, title: true },
     orderBy: { updatedAt: "desc" },
   });
 }
 
-export function createNote({
-  body,
+export function createChangelog({
+  content,
   title,
   userId,
-}: Pick<Note, "body" | "title"> & {
+}: Pick<Changelog, "content" | "title"> & {
   userId: User["id"];
 }) {
-  return prisma.note.create({
+  return prisma.changelog.create({
     data: {
       title,
-      body,
+      content,
       user: {
         connect: {
           id: userId,
@@ -43,11 +44,11 @@ export function createNote({
   });
 }
 
-export function deleteNote({
+export function deleteChangelog({
   id,
   userId,
-}: Pick<Note, "id"> & { userId: User["id"] }) {
-  return prisma.note.deleteMany({
+}: Pick<Changelog, "id"> & { userId: User["id"] }) {
+  return prisma.changelog.deleteMany({
     where: { id, userId },
   });
 }
